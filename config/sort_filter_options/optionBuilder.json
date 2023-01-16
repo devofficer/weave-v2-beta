@@ -1,0 +1,70 @@
+{
+  "sortOptions": [
+    {
+      "text": "Alphabetical",
+      "key": "alpha",
+      "type": "radio",
+      "items": [
+        "A-Z",
+        "Z-A"
+      ]
+    },
+    {
+      "text": "APR",
+      "key": "apr",
+      "type": "radio",
+      "items": [
+        "High to Low",
+        "Low to High"
+      ]
+    },
+    {
+      "text": "TVL",
+      "key": "tvl",
+      "type": "radio",
+      "items": [
+        "High to Low",
+        "Low to High"
+      ]
+    }
+  ],
+  "filterOptions": [
+    {
+      "text": "Protocols",
+      "key": "protocols",
+      "type": "multiselect-menu",
+      "items": [
+        "PCS",
+        "Baby",
+        "Knight",
+        "Spirit",
+        "Spooky",
+        "Ape"
+      ]
+    },
+    {
+      "text": "Farm Type",
+      "key": "farmType",
+      "type": "multiselect-row",
+      "items": [
+        "LP",
+        "Single Staking"
+      ]
+    },
+    {
+      "text": "Show Only Stable Coins",
+      "key": "onlyStable",
+      "type": "check",
+      "items": []
+    },
+    {
+      "text": "Filter By Apr Range",
+      "key": "byApr",
+      "type": "multiinput",
+      "items": [
+        "50",
+        "80"
+      ]
+    }
+  ]
+}

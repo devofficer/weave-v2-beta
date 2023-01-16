@@ -1,0 +1,6 @@
+
+export const WEAVE_TOKEN = '0x6cc97ef7d330c090681c3a6d266f6adedf80e56b';
+export const BABY_TOKEN = '0x53e562b9b7e5e94b81f10e96ee70ad06df3d2657';
+export const KNIGHT_TOKEN = '0xd23811058eb6e7967d9a00dc3886e75610c4abba';
+export const BUSD_TOKEN = '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56';
+export const WBNB_TOKEN = '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c';

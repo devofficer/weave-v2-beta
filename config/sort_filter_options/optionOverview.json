@@ -1,0 +1,43 @@
+{
+  "sortOptions": [
+    {
+      "text": "Alphabetical",
+      "key": "alpha",
+      "type": "radio",
+      "items": [
+        "A-Z",
+        "Z-A"
+      ]
+    },
+    {
+      "text": "APY",
+      "key": "apy",
+      "type": "radio",
+      "items": [
+        "High to Low",
+        "Low to High"
+      ]
+    },
+    {
+      "text": "TVL",
+      "key": "tvl",
+      "type": "radio",
+      "items": [
+        "High to Low",
+        "Low to High"
+      ]
+    }
+  ],
+  "filterOptions": [
+    {
+      "text": "Risk",
+      "key": "risk",
+      "type": "multiselect-row",
+      "items": [
+        "High",
+        "Mid",
+        "Low"
+      ]
+    }
+  ]
+}

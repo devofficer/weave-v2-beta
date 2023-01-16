@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model strategies {
+  id              Int        @id @default(autoincrement())
+  name            String     @unique(map: "strategyName") @db.VarChar(255)
+  contractAddress String     @default("") @db.VarChar(255)
+  chainId         Int
+  historicApy     Float      @db.Float
+  popularity      Int        @db.TinyInt
+  risk            String     @default("") @db.VarChar(255)
+  label           String?    @db.VarChar(255)
+  status          Int        @db.TinyInt
+  strategyData    String     @db.LongText
+  userAddress     String     @db.VarChar(255)
+  referrerAddress String?    @db.VarChar(255)
+  version         Int        @default(0)
+  createdAt       DateTime   @default(now()) @db.Timestamp(0)
+  updatedAt       DateTime   @default(now()) @db.Timestamp(0)
+  comments        comments[]
+}
+
+model comments {
+  id              Int         @id @default(autoincrement())
+  comment         String?     @db.VarChar(255)
+  contractAddress String      @db.VarChar(255)
+  createdAt       DateTime?   @default(now()) @db.Timestamp(0)
+  updatedAt       DateTime?   @default(now()) @db.Timestamp(0)
+  strategiesId    Int?
+  strategies      strategies? @relation(fields: [strategiesId], references: [id])
+
+  @@index([strategiesId], map: "comments_strategiesId_fkey")
+}
+
+model users {
+  id       Int    @id @default(autoincrement())
+  username String @default("") @db.VarChar(255)
+  address  String @default("") @db.VarChar(255)
+  avatar   String @default("") @db.VarChar(255)
+}
+
+model farms {
+  id            Int       @id @default(autoincrement())
+  type          String    @db.VarChar(255)
+  project       String    @db.VarChar(255)
+  poolId        Int
+  chainId       Int
+  token1Address String?   @db.VarChar(255)
+  token1Name    String?   @db.VarChar(255)
+  token1Symbol  String?   @db.VarChar(255)
+  token2Address String?   @db.VarChar(255)
+  token2Name    String?   @db.VarChar(255)
+  token2Symbol  String?   @db.VarChar(255)
+  apr           String?   @db.VarChar(255)
+  tvl           String?   @db.VarChar(255)
+  createdAt     DateTime? @default(now()) @db.Timestamp(0)
+  updatedAt     DateTime? @default(now()) @db.Timestamp(0)
+}
+
+model tokens {
+  id        Int       @id @default(autoincrement())
+  chainId   Int
+  name      String?   @db.VarChar(255)
+  symbol    String    @db.VarChar(255)
+  decimals  Int
+  address   String    @db.VarChar(255)
+  price     Decimal   @default(0.00) @db.Decimal(32, 2)
+  logoURI   String?   @db.VarChar(255)
+  createdAt DateTime? @default(now()) @db.Timestamp(0)
+  updatedAt DateTime? @default(now()) @db.Timestamp(0)
+}
