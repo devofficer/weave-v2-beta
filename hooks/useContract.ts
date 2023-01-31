@@ -22,6 +22,8 @@ import {
   proWallet,
 } from 'utils/contractHelpers';
 
+import tokenInfo from 'utils/tokenInfo.json';
+
 // ABI, Bytecode
 import strategyArtifactBNB from 'artifacts/contracts/StrategyBNB.sol/StrategyBNB.json'
 import strategyArtifactFTM from 'artifacts/contracts/StrategyFTM.sol/StrategyFTM.json'
@@ -136,6 +138,20 @@ export const useWeaveContract = () => {
   const contract = new ethers.Contract(
     config['single'].weaveAddress,
     weaveABI,
+    signer
+  );
+
+  return contract;
+}
+
+export const useBTCBContract = () => {
+  const { data: signer } = useSigner()
+  if (!signer) {
+    return;
+  }
+  const contract = new ethers.Contract(
+    tokenInfo.address,
+    tokenInfo.abi,
     signer
   );
 

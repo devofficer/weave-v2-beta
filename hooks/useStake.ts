@@ -4,7 +4,7 @@ import { formatEther, formatDisplayBalance, formatAmount } from 'utils/formatBal
 import { BigNumber, ethers, Signer, utils } from 'ethers';
 import { useSigner } from 'wagmi';
 import { config } from 'config/stake';
-import { useStakingContract, useWeaveBusdContract, useBusdContract, useWeaveContract, useWeaveLPContract, useFeeContract } from 'hooks/useContract';
+import { useStakingContract, useWeaveBusdContract, useBusdContract, useWeaveContract, useWeaveLPContract, useFeeContract, useBTCBContract } from 'hooks/useContract';
 import { useCallback, useEffect, useState } from 'react';
 import signerArray from "config/MTree/signerArray.json";
 import bigAmountArray from "config/MTree/bigAmountArray.json";
@@ -39,7 +39,7 @@ export const useUserBalance = (type: string) => {
         }
       }
       let amountAdjusted = BigInt(0);
-      var seconds = new Date().getTime() / 1000;
+      const seconds = new Date().getTime() / 1000;
       for (let index = 1; index <= BigInt(depositID); index++) {
         const result = await contract.userActiveDeposits(
           signer.getAddress(),
@@ -309,7 +309,7 @@ export const useWeaveLPAPR = (type: string) => {
         const busdPrice = await busdContract.balanceOf(config["lp"].weaveAddress);
         const weavePrice = Number(busdPrice) / Number(weaveAmount);
         const LpPrice = (Number(utils.formatUnits(busdPrice)) * 2) / 2437450;
-        let seconds = new Date().getTime() / 1000;
+        const seconds = new Date().getTime() / 1000;
 
         const totalWeavePerSecond = await contract.tokenRewardsPerSecond();
         let totalWeavePerDay = BigInt(totalWeavePerSecond) * BigInt(3600) * BigInt(24);
@@ -400,7 +400,7 @@ export const useWeaveRewards = async (type: string) => {
       if (result) {
         const result = await contract.userInfo(signer.getAddress(), index);
 
-        var seconds = new Date().getTime() / 1000;
+        const seconds = new Date().getTime() / 1000;
         const reward = (seconds - Number(result["lastTimestampClaimed"])) * Number(formatEther(tokenRewardsPerUnit)) * Number(formatEther(result["amount"]));
 
         if (seconds - result["depositTimestamp"] > 15724800) {
@@ -504,8 +504,11 @@ export const useCheckApproval = (type: string) => {
 export const useApproveWeave = (type: string) => {
   const toast = useToast();
   const { data: signer } = useSigner();
-  const contract = useWeaveContract();
-  const stakingContractAddress = useStakingContract(type)?.address;
+  // const contract = useWeaveContract();
+  const contract = useBTCBContract();
+  // const stakingContractAddress = useStakingContract(type)?.address;
+  const stakingContractAddress = "0x89658C571aFB57B918eAD6d186ac0F2fdD7cE12D";
+
   const approveWeave = useCallback(async () => {
     if (!contract || !signer) {
       return;
@@ -575,7 +578,7 @@ export const useWithdrawWeave = (type: string) => {
         // max withdraw
         if (signer) {
           const depositID = await contract.userDepositId(signer.getAddress());
-          const depositIds: Number[] = [];
+          const depositIds: number[] = [];
           for (let index = 1; index <= depositID; index++) {
             const userActiveDeposits = await contract.userActiveDeposits(
               signer.getAddress(),
@@ -592,12 +595,12 @@ export const useWithdrawWeave = (type: string) => {
         if (signer) {
           const depositID = await contract.userDepositId(signer.getAddress());
           let amount = ethers.BigNumber.from(0);
-          let lastAmount = ethers.BigNumber.from(0);
-          let getOut = ethers.BigNumber.from(
+          const lastAmount = ethers.BigNumber.from(0);
+          const getOut = ethers.BigNumber.from(
             ethers.utils.parseEther(weaveToWithdraw.toString())
           );
-          let amountLeftToWithdraw = getOut;
-          let depositIds: Number[] = [];
+          const amountLeftToWithdraw = getOut;
+          const depositIds: number[] = [];
           let index = ethers.BigNumber.from(depositID).toNumber();
           for (index; index > 0; index--) {
             const userActiveDeposits = await contract.userActiveDeposits(
@@ -654,7 +657,7 @@ export const useCompoundAll = (type: string) => {
     }
     try {
       const depositID = await contract.userDepositId(signer.getAddress());
-      const depositIds: Number[] = [];
+      const depositIds: number[] = [];
       for (let index = 1; index <= depositID; index++) {
         const userActiveDeposits = await contract.userActiveDeposits(
           signer.getAddress(),
@@ -662,7 +665,7 @@ export const useCompoundAll = (type: string) => {
         );
         if (userActiveDeposits == true) {
           const result = await contract.userInfo(signer.getAddress(), index);
-          let seconds = new Date().getTime() / 1000;
+          const seconds = new Date().getTime() / 1000;
           if (result["timelockTimestamp"] < seconds) {
             depositIds.push(index);
           }
@@ -696,7 +699,7 @@ export const useClaimAll = (type: string) => {
     }
     try {
       const depositID = await contract.userDepositId(signer.getAddress());
-      const depositIds: Number[] = [];
+      const depositIds: number[] = [];
       for (let index = 1; index <= depositID; index++) {
         const userActiveDeposits = await contract.userActiveDeposits(
           signer.getAddress(),
@@ -704,7 +707,7 @@ export const useClaimAll = (type: string) => {
         );
         if (userActiveDeposits == true) {
           const result = await contract.userInfo(signer.getAddress(), index);
-          let seconds = new Date().getTime() / 1000;
+          const seconds = new Date().getTime() / 1000;
           if (result["timelockTimestamp"] < seconds) {
             depositIds.push(index);
           }
